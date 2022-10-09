@@ -6,7 +6,7 @@ import os
 import pathlib
 
 
-def main():
+def pydump():
     filepath = sys.argv[1]
 
     source_lines = pathlib.Path(filepath).read_text().splitlines()
@@ -32,11 +32,15 @@ def main():
             print(buffer, end='')
             buffer = bytecode_line
 
-            new_block = re.match(lineno_pattern, bytecode_line)
-            if new_block:
-                lineno = int(new_block.groups()[0])
+            # if this matches,
+            # it means the disassembly line starts with a leading integer,
+            # denoting source line number and the beginning of
+            # a new dis code block that describes it
+            starts_codeblock = re.match(lineno_pattern, bytecode_line)
+            if starts_codeblock:
+                lineno = int(starts_codeblock.groups()[0])
                 break
 
 
 if __name__ == '__main__':
-    main()
+    pydump()
