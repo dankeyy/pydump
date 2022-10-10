@@ -17,7 +17,7 @@ def pydump():
 
     lineno_pattern = re.compile(r"^\s{1,4}(\d+).*$")
 
-    buffer = next(bytecode_lines)
+    buffer = next(bytecode_lines) # pretty safe since there always is at least one dis line
     lineno = int(re.match(lineno_pattern, buffer).groups()[0])
 
     while True:
